@@ -1,12 +1,10 @@
 import math
 
 
-# FUNCTION
-
 def f(x):
-    #return math.pow((x - 15), 2) + 5
+    return math.pow((x - 15), 2) + 5
     #return math.pow(x + 5, 4)
-    return math.sin(x)
+    #return math.sin(x)
 
 
 def F(n):
@@ -75,9 +73,9 @@ def minFunctionOnLineSearch():
 
 def main():
     # INITIALIZATION
-    #a, b = 2, 200
+    a, b = 2, 200
     #a, b = -10, 15
-    a, b = -math.pi / 2, math.pi / 2
+    #a, b = -math.pi / 2, math.pi / 2
     eps = 1e-3
 
     print("Dichotomy method: ", dichotomyMethod(a, b, eps))
@@ -86,4 +84,7 @@ def main():
 
 
 if __name__ == '__main__':
+    import time
+    start_time = time.time()
     main()
+    print("--- %s seconds ---" % (time.time() - start_time))
