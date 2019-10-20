@@ -4,8 +4,8 @@ import math
 # FUNCTION
 
 def f(x):
-    return math.pow(x + 5, 4)
-    #return math.sin(x)
+    #return math.pow(x + 5, 4)
+    return math.sin(x)
 
 
 # PART I
@@ -24,14 +24,23 @@ def dichotomyMethod(a, b, eps):
 
 
 def goldenRatioMethod(a, b, eps):
-    phi = (1 + math.sqrt(5)) / 2
+    x1 = a + (3 - math.sqrt(5)) / 2 * (b - a)
+    x2 = a + (math.sqrt(5) - 1) / 2 * (b - a)
+    f1 = f(x1)
+    f2 = f(x2)
     while math.fabs(b - a) > eps:
-        x1 = b - (b - a) / phi
-        x2 = a + (b - a) / phi
-        if f(x1) < f(x2):
+        if f1 < f2:
             b = x2
+            x2 = x1
+            f2 = f1
+            x1 = a + (3 - math.sqrt(5)) / 2 * (b - a)
+            f1 = f(x1)
         else:
             a = x1
+            x1 = x2
+            f1 = f2
+            x2 = a + (math.sqrt(5) - 1) / 2 * (b - a)
+            f2 = f(x2)
     x = (a + b) / 2
     return f(x)
 
@@ -46,9 +55,8 @@ def minFunctionOnLineSearch():
 
 def main():
     # INITIALIZATION
-    a, b = -10, 15
-    #a = -math.pi / 2
-    #b = math.pi / 2
+    #a, b = -10, 15
+    a, b = -math.pi / 2, math.pi / 2
     eps = 1e-3
 
     print("Dichotomy method: ", dichotomyMethod(a, b, eps))
