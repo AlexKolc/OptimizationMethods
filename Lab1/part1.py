@@ -54,23 +54,24 @@ def goldenRatioMethod(a, b, eps):
 def fibonacciMethod(a, b, eps):
     n = math.ceil(math.log2(math.sqrt(5) * (b - a) / eps) / math.log2((1 + math.sqrt(5)) / 2)) - 2
 
-    # num = int(math.ceil(math.log((math.sqrt(5) * (b - a)) / (eps * (3 + math.sqrt(5))), (1 + math.sqrt(5)) / 2)))
-    #
-    # n_iter = 0
-    #
-    # while F(n_iter + 2) < (b - a) / eps:
-    #     n_iter += 1
-    #
-    # print(n, num, n_iter)
-
+    x1 = a + F(n) / F(n + 2) * (b - 2)
+    x2 = a + F(n + 1) / F(n + 2) * (b - 2)
+    f1 = f(x1)
+    f2 = f(x2)
     k = 1
     while k < n:
-        x1 = a + F(n - k + 1) / F(n - k + 3) * (b - a)
-        x2 = a + F(n - k + 2) / F(n - k + 3) * (b - a)
-        if f(x1) < f(x2):
+        if f1 < f2:
             b = x2
+            x2 = x1
+            f2 = f1
+            x1 = a + F(n - k + 1) / F(n - k + 3) * (b - a)
+            f1 = f(x1)
         else:
             a = x1
+            x1 = x2
+            f1 = f2
+            x2 = a + F(n - k + 2) / F(n - k + 3) * (b - a)
+            f2 = f(x2)
         k += 1
     x = (a + b) / 2
     return f(x)
@@ -85,6 +86,7 @@ def main():
     a, b = 2, 200
     #a, b = -10, 15
     #a, b = -math.pi / 2, math.pi / 2
+    eps = 1e-3
 
     print("Dichotomy method: ", dichotomyMethod(a, b, eps))
     print("Golden ratio method: ", goldenRatioMethod(a, b, eps))
