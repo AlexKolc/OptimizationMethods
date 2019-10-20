@@ -22,5 +22,3 @@ def fx(x):
 
     def minFunctionOnLineSearch():
         return
-
-#PART II
