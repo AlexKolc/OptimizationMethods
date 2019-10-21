@@ -2,6 +2,10 @@ import time
 import math
 
 
+# import matplotlib.pyplot as plt
+# import pylab
+
+
 def f(x):
     return math.pow((x - 15), 2) + 5
     # return math.pow(x + 5, 4)
@@ -28,16 +32,18 @@ def dichotomyMethod(a, b, eps):
         else:
             a = x
     x = (a + b) / 2
-    print("Iteratins = %s" % iterations)
-    return f(x)
+    print("Iterations = %s" % iterations)
+    return x
 
 
 def goldenRatioMethod(a, b, eps):
+    iterations = 0
     x1 = a + (3 - math.sqrt(5)) / 2 * (b - a)
     x2 = a + (math.sqrt(5) - 1) / 2 * (b - a)
     f1 = f(x1)
     f2 = f(x2)
     while math.fabs(b - a) > eps:
+        iterations += 1
         if f1 < f2:
             b = x2
             x2 = x1
@@ -51,18 +57,20 @@ def goldenRatioMethod(a, b, eps):
             x2 = a + (math.sqrt(5) - 1) / 2 * (b - a)
             f2 = f(x2)
     x = (a + b) / 2
-    return f(x)
+    print("Iterations = %s" % iterations)
+    return x
 
 
 def fibonacciMethod(a, b, eps):
     n = math.ceil(math.log2(math.sqrt(5) * (b - a) / eps) / math.log2((1 + math.sqrt(5)) / 2)) - 2
-
+    iterations = 0
     x1 = a + F(n) / F(n + 2) * (b - 2)
     x2 = a + F(n + 1) / F(n + 2) * (b - 2)
     f1 = f(x1)
     f2 = f(x2)
     k = 1
     while k < n:
+        iterations += 1
         if f1 < f2:
             b = x2
             x2 = x1
@@ -77,7 +85,8 @@ def fibonacciMethod(a, b, eps):
             f2 = f(x2)
         k += 1
     x = (a + b) / 2
-    return f(x)
+    print("Iterations = %s" % iterations)
+    return x
 
 
 def minFunctionOnLineSearch(eps):
