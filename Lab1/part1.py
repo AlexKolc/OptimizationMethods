@@ -3,7 +3,7 @@ import math
 
 
 def f(x):
-    return -math.pow((x - 15), 2) + 5
+    return math.pow((x - 15), 2) + 5
     # return math.pow(x + 5, 4)
     # return math.sin(x)
 
@@ -80,28 +80,33 @@ def fibonacciMethod(a, b, eps):
 
 def minFunctionOnLineSearch(eps):
     delta = eps / 2
-    x0 = 0
+    x0 = 1
 
     f0 = f(x0 - delta)
     f1 = f(x0)
     f2 = f(x0 + delta)
 
     if f1 > f2:
-        x_next = x0 + delta
+        x_next = x0
         h = delta
     elif f1 > f0:
-        x_next = x0 - delta
+        x_next = x0
         h = -delta
     else:
-        return "No extremes"
+        return "min in %s" % x0
 
     h *= 2
     x_next += h
-    while f(x_next - h) > f(x_next):
+    f1, f2 = f(x_next - h), f(x_next)
+    while f1 > f2:
         h *= 2
         x_next += h
+        f1, f2 = f2, f(x_next)
 
-    return "[%s, %s]" % (x_next - h - h / 2, x_next)
+    if x_next - h - h / 2 < x_next:
+        return "[%s, %s]" % (x_next - h - h / 2, x_next)
+    else:
+        return "[%s, %s]" % (x_next, x_next - h - h / 2)
 
 
 def main():
@@ -115,7 +120,6 @@ def main():
     print("Golden ratio method: ", goldenRatioMethod(a, b, eps))
     print("Fibonacci method:", fibonacciMethod(a, b, eps))
     print("Search the minimum function on line:", minFunctionOnLineSearch(eps))
-
 
 if __name__ == '__main__':
     start_time = time.time()
