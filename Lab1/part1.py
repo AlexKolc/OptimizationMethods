@@ -16,17 +16,19 @@ def F(n):
 # PART I
 
 def dichotomyMethod(a, b, eps):
+    delta = eps / 2
     iterations = 0
     while math.fabs(b - a) > eps:
         iterations += 1
         x = (a + b) / 2
-        f1 = f(x - eps)
-        f2 = f(x + eps)
+        f1 = f(x - delta)
+        f2 = f(x + delta)
         if f1 < f2:  # if need finding max, exchange to '>'
             b = x
         else:
             a = x
     x = (a + b) / 2
+    print("Iteratins = %s" % iterations)
     return f(x)
 
 
@@ -120,6 +122,7 @@ def main():
     print("Golden ratio method: ", goldenRatioMethod(a, b, eps))
     print("Fibonacci method:", fibonacciMethod(a, b, eps))
     print("Search the minimum function on line:", minFunctionOnLineSearch(eps))
+
 
 if __name__ == '__main__':
     start_time = time.time()
