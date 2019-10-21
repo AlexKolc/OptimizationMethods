@@ -4,12 +4,6 @@ import matplotlib.pyplot as plt
 from beautifultable import BeautifulTable
 
 
-def f(x):
-    return math.pow((x - 15), 2) + 5
-    # return math.pow(x + 5, 4)
-    # return math.sin(x)\
-
-
 def F(n):
     return 1 / math.sqrt(5) * (math.pow((1 + math.sqrt(5)) / 2, n)
                                - math.pow((1 - math.sqrt(5)) / 2, n))
@@ -172,12 +166,18 @@ def minFunctionOnLineSearch(eps):
         return "[%s, %s]" % (x_next, x_next - h - h / 2)
 
 
+def f(x):
+    return math.pow((x - 15), 2) + 5
+    # return math.pow(x + 5, 4)
+    # return math.sin(x)\
+
+
 def main():
     # INITIALIZATION
     a, b = 2, 200
     # a, b = -10, 15
     # a, b = -math.pi / 2, math.pi / 2
-    eps = 1e-1
+    eps = 1e-3
 
     plotFunction(a, b, eps)
 
