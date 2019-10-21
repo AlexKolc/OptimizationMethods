@@ -5,10 +5,9 @@ from beautifultable import BeautifulTable
 
 
 def f(x):
-    # return math.pow((x - 15), 2) + 5
+    return math.pow((x - 15), 2) + 5
     # return math.pow(x + 5, 4)
-    # return math.sin(x)
-    return 100 * math.pow(x - 0.24, 2)
+    # return math.sin(x)\
 
 
 def F(n):
@@ -175,10 +174,9 @@ def minFunctionOnLineSearch(eps):
 
 def main():
     # INITIALIZATION
-    # a, b = 2, 200
+    a, b = 2, 200
     # a, b = -10, 15
     # a, b = -math.pi / 2, math.pi / 2
-    a, b = 0, 1
     eps = 1e-1
 
     plotFunction(a, b, eps)
