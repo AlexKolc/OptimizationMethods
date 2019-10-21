@@ -1,10 +1,11 @@
+import time
 import math
 
 
 def f(x):
-    return math.pow((x - 15), 2) + 5
-    #return math.pow(x + 5, 4)
-    #return math.sin(x)
+    return -math.pow((x - 15), 2) + 5
+    # return math.pow(x + 5, 4)
+    # return math.sin(x)
 
 
 def F(n):
@@ -77,24 +78,46 @@ def fibonacciMethod(a, b, eps):
     return f(x)
 
 
-def minFunctionOnLineSearch():
-    return
+def minFunctionOnLineSearch(eps):
+    delta = eps / 2
+    x0 = 0
+
+    f0 = f(x0 - delta)
+    f1 = f(x0)
+    f2 = f(x0 + delta)
+
+    if f1 > f2:
+        x_next = x0 + delta
+        h = delta
+    elif f1 > f0:
+        x_next = x0 - delta
+        h = -delta
+    else:
+        return "No extremes"
+
+    h *= 2
+    x_next += h
+    while f(x_next - h) > f(x_next):
+        h *= 2
+        x_next += h
+
+    return "[%s, %s]" % (x_next - h - h / 2, x_next)
 
 
 def main():
     # INITIALIZATION
     a, b = 2, 200
-    #a, b = -10, 15
-    #a, b = -math.pi / 2, math.pi / 2
+    # a, b = -10, 15
+    # a, b = -math.pi / 2, math.pi / 2
     eps = 1e-3
 
     print("Dichotomy method: ", dichotomyMethod(a, b, eps))
     print("Golden ratio method: ", goldenRatioMethod(a, b, eps))
-    print("Fibonacci method", fibonacciMethod(a, b, eps))
+    print("Fibonacci method:", fibonacciMethod(a, b, eps))
+    print("Search the minimum function on line:", minFunctionOnLineSearch(eps))
 
 
 if __name__ == '__main__':
-    import time
     start_time = time.time()
     main()
     print("--- %s seconds ---" % (time.time() - start_time))
