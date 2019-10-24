@@ -171,7 +171,7 @@ def fastestDescentMethod(x1, eps):
     a = minFunctionOnLineSearch(x1, s, eps)
     b, a = a[1], a[0]
     print("(%s, %s)" % (a, b))
-    lam = dichotomyMethod(a, b, eps, x1, s)
+    lam = goldenRatioMethod(a, b, eps, x1, s)
     print("Lambda= ", lam)
     x2 = []
     for i in range(0, len(x1)):
@@ -179,7 +179,7 @@ def fastestDescentMethod(x1, eps):
     print("Next x= ", x2)
     f1 = f(x1)
     f2 = f(x2)
-    while math.fabs(f2 - f1) < eps:
+    while math.fabs(f2 - f1) > eps:
         x1 = x2
         f1 = f2
         s = grad(x1)
@@ -187,7 +187,7 @@ def fastestDescentMethod(x1, eps):
         a = minFunctionOnLineSearch(x1, s, eps)
         b, a = a[1], a[0]
         print("(%s, %s)" % (a, b))
-        lam = dichotomyMethod(a, b, eps, x1, s)
+        lam = goldenRatioMethod(a, b, eps, x1, s)
         print("Lambda =", lam)
         x2 = []
         for i in range(0, len(x1)):
@@ -200,33 +200,38 @@ def fastestDescentMethod(x1, eps):
 
 
 def grad(x):
-    zx1 = 2 * x[0] * (math.pow(x[1], 6)
-                      + math.pow(x[1], 4)
-                      - 2 * math.pow(x[1], 3)
-                      - math.pow(x[1], 2)
-                      - 2 * x[1] + 3
-                      ) + 5.25 * math.pow(x[1], 3) \
-          + 4.5 * math.pow(x[1], 2) + 3 * x[1] - 12.75
-
-    zx2 = x[0] * (x[0] * (6 * math.pow(x[1], 5)
-                          + 4 * math.pow(x[1], 3)
-                          - 6 * math.pow(x[1], 2)
-                          - 2 * x[1] - 2)
-                  + 15.75 * math.pow(x[1], 2) + 3)
+    zx1 = 2 * x[0] + math.exp(x[0] + x[1])
+    zx2 = 4 * x[1] + math.exp(x[0] + x[1])
     return [-zx1, -zx2]
+    # zx1 = 2 * x[0] * (math.pow(x[1], 6)
+    #                   + math.pow(x[1], 4)
+    #                   - 2 * math.pow(x[1], 3)
+    #                   - math.pow(x[1], 2)
+    #                   - 2 * x[1] + 3
+    #                   ) + 5.25 * math.pow(x[1], 3) \
+    #       + 4.5 * math.pow(x[1], 2) + 3 * x[1] - 12.75
+    #
+    # zx2 = x[0] * (x[0] * (6 * math.pow(x[1], 5)
+    #                       + 4 * math.pow(x[1], 3)
+    #                       - 6 * math.pow(x[1], 2)
+    #                       - 2 * x[1] - 2)
+    #               + 15.75 * math.pow(x[1], 2) + 3)
+    # return [-zx1, -zx2]
 
 
 # global min at (x, y) = (3, 1/2) (WOLFRAM)
 def f(x):
-    return (1.5 - x[0] * (1 - x[1])) ** 2 \
-           + (2.25 - x[0] * (1 - x[1] * x[1])) ** 2 \
-           + (2.625 - x[0] * (1 - x[1] * x[1] * x[1])) ** 2
+    return x[0] ** 2 + 2 * x[1] ** 2 + math.exp(x[0] + x[1])
+    # return (1.5 - x[0] * (1 - x[1])) ** 2 \
+    #        + (2.25 - x[0] * (1 - x[1] * x[1])) ** 2 \
+    #        + (2.625 - x[0] * (1 - x[1] * x[1] * x[1])) ** 2
 
 
 def g(lam, x, s):
-    return (1.5 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]))) ** 2 \
-           + (2.25 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]) ** 2)) ** 2 \
-           + (2.625 - (x[0] + lam * s[0]) * (1 - math.pow((x[1] + lam * s[1]), 3))) ** 2
+    return (x[0] + lam * s[0]) ** 2 + 2 * (x[1] + lam * s[1]) ** 2 + math.exp((x[0] + lam * s[0]) + (x[1] + lam * s[1]))
+    # return (1.5 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]))) ** 2 \
+    #        + (2.25 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]) ** 2)) ** 2 \
+    #        + (2.625 - (x[0] + lam * s[0]) * (1 - math.pow((x[1] + lam * s[1]), 3))) ** 2
 
 
 def main():
