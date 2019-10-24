@@ -9,6 +9,17 @@ def F(n):
                                - math.pow((1 - math.sqrt(5)) / 2, n))
 
 
+def rd(x, y=0):
+    ''' A classical mathematical rounding by Voznica '''
+    m = int('1' + '0' * y)  # multiplier - how many positions to the right
+    q = x * m  # shift to the right by multiplier
+    c = int(q)  # new number
+    i = int((q - c) * 10)  # indicator number on the right
+    if i >= 5:
+        c += 1
+    return c / m
+
+
 def plotFunction(a, b, eps):
     x = []
     y = []
@@ -21,7 +32,7 @@ def plotFunction(a, b, eps):
     plt.xlabel('x')
     plt.ylabel('f(x)')
     plt.grid(True)
-    plt.savefig('function.png')
+    plt.savefig('function1.png')
 
 
 class Table:
@@ -33,12 +44,16 @@ class Table:
             , "x2", "f(x2)"]
 
     def addRow(self, k, a, b, x1, f1, x2, f2):
+
         if x1 != "-":
-            self.table.append_row([k, "(%s, %s)" % (round(a, 3), round(b, 3))
-                                      , round((b - a) / self.length, 3), round(x1, 3)
-                                      , round(f1, 4), round(x2, 3), round(f2, 4)])
+            self.table.append_row([k, "(%.3f, %.3f)" % (a, b)
+                                      , "%.3f" % ((b - a) / self.length), "%.3f" % x1
+                                      , "%.4f" % f1, "%.3f" % x2, "%.4f" % f2])
+            # print([k, "(%.3f, %.3f)" % (a, b)
+            #           , "%.3f" % ((b - a) / self.length), "%.3f" % x1
+            #           , "%.4f" % f1, "%.3f" % x2, "%.4f" % f2])
         else:
-            self.table.append_row([k, "(%s, %s)" % (round(a, 3), round(b, 3))
+            self.table.append_row([k, "(%.3f, %.3f)" % (a, b)
                                       , x1, x1, f1, x2, f2])
 
     def printToFile(self, fileName):
@@ -167,17 +182,13 @@ def minFunctionOnLineSearch(eps):
 
 
 def f(x):
-    return math.pow((x - 15), 2) + 5
-    # return math.pow(x + 5, 4)
-    # return math.sin(x)\
+    return math.pow(x + 5, 4)
 
 
 def main():
     # INITIALIZATION
-    a, b = 2, 200
-    # a, b = -10, 15
-    # a, b = -math.pi / 2, math.pi / 2
-    eps = 1e-3
+    a, b = -10, 15
+    eps = 1e-1
 
     plotFunction(a, b, eps)
 
