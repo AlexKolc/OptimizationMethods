@@ -239,9 +239,7 @@ def g(lam, x, s):
 
 def main():
     # INITIALIZATION
-
     # plotFunction()
-
     x = [0, 0]
     eps = 1e-5
     print(fastestDescentMethod(x, eps))
