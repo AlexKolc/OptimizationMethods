@@ -203,6 +203,7 @@ def grad(x):
     zx1 = 2 * x[0] + math.exp(x[0] + x[1])
     zx2 = 4 * x[1] + math.exp(x[0] + x[1])
     return [-zx1, -zx2]
+
     # zx1 = 2 * x[0] * (math.pow(x[1], 6)
     #                   + math.pow(x[1], 4)
     #                   - 2 * math.pow(x[1], 3)
@@ -222,6 +223,7 @@ def grad(x):
 # global min at (x, y) = (3, 1/2) (WOLFRAM)
 def f(x):
     return x[0] ** 2 + 2 * x[1] ** 2 + math.exp(x[0] + x[1])
+
     # return (1.5 - x[0] * (1 - x[1])) ** 2 \
     #        + (2.25 - x[0] * (1 - x[1] * x[1])) ** 2 \
     #        + (2.625 - x[0] * (1 - x[1] * x[1] * x[1])) ** 2
@@ -229,6 +231,7 @@ def f(x):
 
 def g(lam, x, s):
     return (x[0] + lam * s[0]) ** 2 + 2 * (x[1] + lam * s[1]) ** 2 + math.exp((x[0] + lam * s[0]) + (x[1] + lam * s[1]))
+
     # return (1.5 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]))) ** 2 \
     #        + (2.25 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]) ** 2)) ** 2 \
     #        + (2.625 - (x[0] + lam * s[0]) * (1 - math.pow((x[1] + lam * s[1]), 3))) ** 2
