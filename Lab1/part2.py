@@ -37,8 +37,8 @@ class Minimization:
 
     def plotFunction(self):
         ax = axes3d.Axes3D(plt.figure())
-        X = np.arange(-300, 300, 1)
-        Y = np.arange(-300, 300, 1)
+        X = np.arange(-100, 100, 1)
+        Y = np.arange(-100, 100, 1)
         Z = np.zeros((X.size, Y.size))
         for i in range(0, X.size):
             for j in range(0, Y.size):
@@ -64,20 +64,28 @@ class Minimization:
         x = self.x
         s = self.s
         return (1.5 - (x[0] + lam * s[0]) * (1 - (x[1] + lam * s[1]))) ** 2 \
-               + (2.25 - (x[0] + lam * s[0]) * (1 - math.pow((x[1] + lam * s[1]), 2))) ** 2 \
-               + (2.625 - (x[0] + lam * s[0]) * (1 - math.pow((x[1] + lam * s[1]), 3))) ** 2
+               + (2.25 - (x[0] + lam * s[0]) * (
+                1 - math.pow((x[1] + lam * s[1]), 2))) ** 2 \
+               + (2.625 - (x[0] + lam * s[0]) * (
+                1 - math.pow((x[1] + lam * s[1]), 3))) ** 2
 
     def __grad(self, x):
-        zx1 = (2 * x[1] - 2) * (-x[0] * (1 - x[1]) + 1.5) + (2 * x[1] ** 2 - 2) * (-x[0] * (1 - x[1] ** 2) + 2.25) + (
-                    2 * x[1] ** 3 - 2) * (-x[0] * (1 - x[1] ** 3) + 2.625)
+        zx1 = (2 * x[1] - 2) * (-x[0] * (1 - x[1]) + 1.5) + (
+                2 * x[1] ** 2 - 2) * (-x[0] * (1 - x[1] ** 2) + 2.25) + (
+                      2 * x[1] ** 3 - 2) * (-x[0] * (1 - x[1] ** 3) + 2.625)
 
-        zx2 = 6 * x[0] * x[1] ** 2 * (-x[0] * (1 - x[1] ** 3) + 2.625) + 4 * x[0] * x[1] * (-x[0] * (1 - x[1] ** 2) + 2.25) + 2 * x[0] * (
-                    -x[0] * (1 - x[1]) + 1.5)
-        return [-zx1, -zx2]
+        zx2 = 6 * x[0] * x[1] ** 2 * (-x[0] * (1 - x[1] ** 3) + 2.625) + 4 * \
+              x[0] * x[1] * (
+                      -x[0] * (1 - x[1] ** 2) + 2.25) + 2 * x[0] * (
+                      -x[0] * (1 - x[1]) + 1.5)
+
+        len = math.sqrt(zx1 ** 2 + zx2 ** 2)
+        return [-zx1 / len, -zx2 / len]
 
     def __F(self, n):
-        return 1 / math.sqrt(5) * (math.pow((1 + math.sqrt(5)) / 2, n)
-                                   - math.pow((1 - math.sqrt(5)) / 2, n))
+        return 1 / math.sqrt(5) * (
+                math.pow((1 + math.sqrt(5)) / 2, n)
+                - math.pow((1 - math.sqrt(5)) / 2, n))
 
     def __dichotomyMethod(self, a, b, eps):
         delta = eps / 2
@@ -178,6 +186,7 @@ class Minimization:
     def fastestDescentMethod(self, x1, eps):
         self.x = x1
         s = self.s = self.__grad(x1)
+
         print("Grad =", s)
         a = self.__minFunctionOnLineSearch(eps)
         b, a = a[1], a[0]
@@ -190,12 +199,19 @@ class Minimization:
         print("Next x =", x2)
         f1 = self.__f(x1)
         f2 = self.__f(x2)
+        print("f1 = %s,  f2 = %s" % (f1, f2))
         iterations = 0
+        flag = 0
         while math.fabs(f2 - f1) > eps:
             iterations += 1
             x1 = self.x = x2
             f1 = f2
+            if flag > 10:
+                flag = 0
+                x1 = self.x = [1, 1]
+                f1 = self.__f(x1)
             s = self.s = self.__grad(x1)
+
             print("Grad =", s)
             a = self.__minFunctionOnLineSearch(eps)
             b, a = a[1], a[0]
@@ -207,17 +223,23 @@ class Minimization:
                 x2.append(x1[i] + lam * s[i])
             print("Next x =", x2)
             f2 = self.__f(x2)
+            print("f1 = %s,  f2 = %s" % (f1, f2))
+            if math.fabs(x1[0] - x2[0]) <= eps and math.fabs(x1[1] - x2[1]) <= eps:
+                flag += 1
+            else:
+                flag = 0
+            print()
 
         print(iterations)
+        print("f =", self.__f(x2))
         return x2
 
 
 def main():
     # INITIALIZATION
 
-    x = [-2, 3]
+    x = [100, 100]
     eps = 1e-5
-
     min = Minimization()
     # min.plotFunction()
     print(min.fastestDescentMethod(x, eps))
